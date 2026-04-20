@@ -39,7 +39,10 @@ export async function save(pdfFile, objects, name) {
           return noop;
         }
       } else if (object.type === 'text') {
-        let { x, y, lines, lineHeight, size, fontFamily, width } = object;
+        let { x, y, lines, lineHeight, size, fontFamily, width, text } = object;
+        if (!lines || !lines.length) {
+          lines = (text || '').split('\n');
+        }
         const height = size * lineHeight * lines.length;
         const font = await fetchFont(fontFamily);
         const [textPage] = await pdfDoc.embedPdf(
@@ -84,6 +87,8 @@ export async function save(pdfFile, objects, name) {
           });
           page.pushOperators(popGraphicsState());
         };
+      } else {
+        return noop;
       }
     });
     // embed objects in order

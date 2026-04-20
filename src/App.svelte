@@ -9,7 +9,6 @@
   import DrawingCanvas from "./DrawingCanvas.svelte";
   import prepareAssets, { fetchFont } from "./utils/prepareAssets.js";
   import {
-    readAsArrayBuffer,
     readAsImage,
     readAsPDF,
     readAsDataURL
@@ -23,8 +22,7 @@
   let pagesScale = [];
   let allObjects = [];
   let currentFont = "Times-Roman";
-  let focusId = null;
-  let selectedPageIndex = -1;
+let selectedPageIndex = -1;
   let saving = false;
   let addingDrawing = false;
   // for test purpose
@@ -88,13 +86,26 @@
       const img = await readAsImage(url);
       const id = genID();
       const { width, height } = img;
+
+      // mirror Image.svelte's scale-down logic to know final display size
+      let scale = 1;
+      const limit = 500;
+      if (width > limit) scale = limit / width;
+      if (height > limit) scale = Math.min(scale, limit / height);
+
+      // center image on the current page
+      const page = await pages[selectedPageIndex];
+      const viewport = page.getViewport({ scale: 1 });
+      const x = Math.max(0, (viewport.width - width * scale) / 2);
+      const y = Math.max(0, (viewport.height - height * scale) / 2);
+
       const object = {
         id,
         type: "image",
         width,
         height,
-        x: 0,
-        y: 0,
+        x,
+        y,
         payload: img,
         file
       };
@@ -117,7 +128,7 @@
       id,
       text,
       type: "text",
-      size: 16,
+      size: 12,
       width: 0, // recalculate after editing
       lineHeight: 1.4,
       fontFamily: currentFont,
@@ -229,23 +240,22 @@
         class:bg-gray-500={selectedPageIndex < 0}>
         <img src="image.svg" alt="An icon for adding images" />
       </label>
-      <label
+      <button
         class="flex items-center justify-center h-full w-8 hover:bg-gray-500
-        cursor-pointer"
-        for="text"
+        cursor-pointer border-0 bg-transparent"
         class:cursor-not-allowed={selectedPageIndex < 0}
         class:bg-gray-500={selectedPageIndex < 0}
         on:click={onAddTextField}>
         <img src="notes.svg" alt="An icon for adding text" />
-      </label>
-      <label
+      </button>
+      <button
         class="flex items-center justify-center h-full w-8 hover:bg-gray-500
-        cursor-pointer"
+        cursor-pointer border-0 bg-transparent"
         on:click={onAddDrawing}
         class:cursor-not-allowed={selectedPageIndex < 0}
         class:bg-gray-500={selectedPageIndex < 0}>
         <img src="gesture.svg" alt="An icon for adding drawing" />
-      </label>
+      </button>
     </div>
     <div class="justify-center mr-3 md:mr-4 w-full max-w-xs hidden md:flex">
       <img src="/edit.svg" class="mr-2" alt="a pen, edit pdf name" />

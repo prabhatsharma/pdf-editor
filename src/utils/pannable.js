@@ -92,6 +92,10 @@ export function pannable(node) {
     destroy() {
       node.removeEventListener('mousedown', handleMousedown);
       node.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('mousemove', handleMousemove);
+      window.removeEventListener('mouseup', handleMouseup);
+      window.removeEventListener('touchmove', handleTouchmove);
+      window.removeEventListener('touchend', handleTouchend);
     },
   };
 }

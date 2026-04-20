@@ -19,6 +19,32 @@ No install. No server. ¯\\\_(ツ)\_/¯ https://pdf-editor.now.sh
 - Drag and drop to upload your PDF.
 - 支援中文（標楷體）。
 
+## Build & Development
+
+**Prerequisites:** Node.js
+
+**Install dependencies:**
+```bash
+npm install
+```
+
+**Start dev server** (with live reload):
+```bash
+npm run dev
+```
+
+**Build for production:**
+```bash
+npm run build
+```
+
+**Serve the production build:**
+```bash
+npm start
+```
+
+The production build outputs to the `public/` directory.
+
 ---
 
 LICENSE MIT © 2020 ShizukuIchi

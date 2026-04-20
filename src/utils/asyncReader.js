@@ -16,7 +16,13 @@ export function readAsImage(src) {
     img.onerror = reject;
     if (src instanceof Blob) {
       const url = window.URL.createObjectURL(src);
+      img.onload = () => {
+        window.URL.revokeObjectURL(url);
+        resolve(img);
+      };
+      img.onerror = reject;
       img.src = url;
+      return;
     } else {
       img.src = src;
     }
@@ -37,5 +43,9 @@ export async function readAsPDF(file) {
   // Safari possibly get webkitblobresource error 1 when using origin file blob
   const blob = new Blob([file]);
   const url = window.URL.createObjectURL(blob);
-  return pdfjsLib.getDocument(url).promise;
+  try {
+    return await pdfjsLib.getDocument(url).promise;
+  } finally {
+    window.URL.revokeObjectURL(url);
+  }
 }

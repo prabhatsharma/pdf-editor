@@ -220,6 +220,9 @@
       </div>
       <div
         on:click={onDelete}
+        on:keydown={(e) => (e.key === 'Enter' || e.key === ' ') && onDelete()}
+        role="button"
+        tabindex="0"
         class="w-5 h-5 rounded-full bg-white cursor-pointer">
         <img class="w-full h-full" src="/delete.svg" alt="delete object" />
       </div>
