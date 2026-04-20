@@ -4,7 +4,7 @@
   "author": "ShizukuIchi <shizukuichi@gmail.com>",
   "homepage": "https://pdf-editor.now.sh",
   "scripts": {
-    "build": "rollup -c",
+    "build": "mkdir -p public/build && rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv public"
   },
