@@ -11,7 +11,7 @@ const scripts = [
     name: 'download',
     src: 'https://unpkg.com/downloadjs@1.4.7',
   },
-  { name: 'makeTextPDF', src: '/makeTextPDF.js' },
+  { name: 'makeTextPDF', src: 'makeTextPDF.js' },
 ];
 
 const assets = {};
@@ -66,7 +66,7 @@ const fonts = {
 export const Fonts = {
   ...fonts,
   標楷體: {
-    src: '/CK.ttf', // 9.9 MB
+    src: 'CK.ttf', // 9.9 MB
     correction(size, lineHeight) {
       return (size * lineHeight - size) / 2;
     },
