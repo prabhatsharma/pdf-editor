@@ -226,7 +226,7 @@
     tabindex="0"
     class="absolute left-0 top-0 right-0 w-8 h-8 m-auto rounded-full bg-white
     cursor-pointer transform -translate-y-1/2">
-    <img class="w-full h-full" src="/delete.svg" alt="delete object" />
+    <img class="w-full h-full" src="delete.svg" alt="delete object" />
   </div>
   <canvas class="w-full h-full" bind:this={canvas} />
 </div>
