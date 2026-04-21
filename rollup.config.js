@@ -21,11 +21,8 @@ export default {
       preprocess: sveltePreprocess({ postcss: true }),
       // enable run-time checks when not in production
       dev: !production,
-      // we'll extract any component CSS out into
-      // a separate file - better for performance
-      css: (css) => {
-        css.write('public/build/bundle.css');
-      },
+      // inject CSS into bundle.js (avoids separate file path issues on GitHub Pages)
+      css: true,
     }),
 
     resolve({
@@ -50,7 +47,7 @@ function serve() {
       if (!started) {
         started = true;
 
-        require('child_process').spawn('yarn', ['start', '--dev'], {
+        require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
           stdio: ['ignore', 'inherit', 'inherit'],
           shell: true,
         });
